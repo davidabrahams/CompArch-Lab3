@@ -1,0 +1,1 @@
+iverilog -o build/compiled verilog/pc.v tests/pc.t.v && ./build/compiled && rm ./build/compiled
