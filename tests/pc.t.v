@@ -15,9 +15,7 @@ module testPc;
         $dumpfile("build/pc.vcd"); //dump info to create wave propagation later
         $dumpvars(0, testPc);
 
-        $display();
         $display("Testing PC");
-        $display();
 
         // Test 1: pc is initially set to 0
         if (out !== 32'b0) begin
@@ -40,6 +38,7 @@ module testPc;
             $display("PC Tests Failed");
         end
 
+        $display();
         $finish;
     end
 
