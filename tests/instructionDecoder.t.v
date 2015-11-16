@@ -9,20 +9,19 @@ module testInstructionDecoder;
     wire [4:0]    rs;
     wire [4:0]    rt;
     wire [4:0]    rd;
+    wire [5:0]    funct;
     wire [15:0]   imm_16;
     wire [25:0]   address_26;
 
     reg dutpassed;
 
-    instructionDecoder DUT(instruction_in, op, rs, rt, rd, imm_16, address_26);
+    instructionDecoder DUT(instruction_in, op, rs, rt, rd, funct, imm_16, address_26);
 
     initial begin
         $dumpfile("instructionDecoder.vcd"); //dump info to create wave propagation later
         $dumpvars(0, testInstructionDecoder);
-        $display();
 
         $display("Testing instructionDecoder");
-        $display();
 
         dutpassed = 1;
 
@@ -30,7 +29,7 @@ module testInstructionDecoder;
 
         instruction_in = 32'b10000000001000100001100000000000;
         #10
-        if (op !== 6'b100000 | rs !== 5'b00001 | rt !== 5'b00010 | rd !== 5'b00011) begin
+        if (op !== 6'b100000 || rs !== 5'b00001 || rt !== 5'b00010 || rd !== 5'b00011) begin
             dutpassed = 0;
             $display("Test 1 FAIL");
             $display("op: %b, rs: %b", op, rs);
@@ -42,7 +41,7 @@ module testInstructionDecoder;
 
         instruction_in = 32'b00100001001100101101100010100111;
         #10
-        if (op !== 6'b001000 | rs !== 5'b01001 | rt !== 5'b10010 | imm_16 !== 16'b1101100010100111) begin
+        if (op !== 6'b001000 || rs !== 5'b01001 || rt !== 5'b10010 || imm_16 !== 16'b1101100010100111) begin
             dutpassed = 0;
             $display("Test 2 FAIL");
             $display("op: %b, rs: %b", op, rs);
@@ -54,7 +53,7 @@ module testInstructionDecoder;
 
         instruction_in = 32'b00001010101010001110010100101011;
         #10
-        if (op !== 6'b000010 | address_26 !== 26'b10101010001110010100101011) begin
+        if (op !== 6'b000010 || address_26 !== 26'b10101010001110010100101011) begin
             dutpassed = 0;
             $display("Test 3 FAIL");
             $display("op: %b", op);

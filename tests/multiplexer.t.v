@@ -17,10 +17,8 @@ module testMux;
   initial begin
     $dumpfile("mux.vcd");
     $dumpvars(0, testMux);
-    $display();
 
     $display("Testing Multiplexers");
-    $display();
 
     dutpassed = 1;
 

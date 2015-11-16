@@ -20,10 +20,8 @@ module testDataMemory;
     initial begin
         $dumpfile("dataMemory.vcd"); //dump info to create wave propagation later
         $dumpvars(0, testDataMemory);
-        $display();
 
         $display("Testing DataMemory");
-        $display();
 
         dutpassed = 1;
 
