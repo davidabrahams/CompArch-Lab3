@@ -13,6 +13,7 @@ module testAlu;
         $dumpfile("build/alu.vcd"); //dump info to create wave propagation later
         $dumpvars(0, testAlu);
 
+        $display();
         $display("Testing ALU");
         $display();
 
@@ -158,6 +159,7 @@ module testAlu;
         else begin
             $display("Alu Tests Failed");
         end
+        $display();
 
         $finish;
     end

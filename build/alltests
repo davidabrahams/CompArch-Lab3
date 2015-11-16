@@ -1,0 +1,1 @@
+./build/alu && ./build/datamemory && ./build/instructionDecoder && ./build/multiplexer

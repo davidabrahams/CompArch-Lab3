@@ -19,6 +19,7 @@ module testInstructionDecoder;
     initial begin
         $dumpfile("instructionDecoder.vcd"); //dump info to create wave propagation later
         $dumpvars(0, testInstructionDecoder);
+        $display();
 
         $display("Testing instructionDecoder");
         $display();
@@ -66,6 +67,7 @@ module testInstructionDecoder;
         else begin
             $display("Tests Failed");
         end
+        $display();
         $finish;
 
     end

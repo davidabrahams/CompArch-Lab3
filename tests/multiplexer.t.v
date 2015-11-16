@@ -17,6 +17,7 @@ module testMux;
   initial begin
     $dumpfile("mux.vcd");
     $dumpvars(0, testMux);
+    $display();
 
     $display("Testing Multiplexers");
     $display();
@@ -72,6 +73,7 @@ module testMux;
     else begin
         $display("Tests Failed");
     end
+    $display();
     $finish;
   end
 endmodule
