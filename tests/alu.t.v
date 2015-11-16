@@ -66,7 +66,7 @@ module testAlu;
         #1000000
         $display("%b %b %b     | %b %b    %b    %b        | %b %b %b %b",
                  operandA, operandB, command, result, carryout, zero, overflow,
-                 32'b10000010011110000000001111001000, 1'b1, 1'b0, 1'b0);
+                 32'b10000010011110000000001111001000, 1'b0, 1'b0, 1'b0);
         $display();
         $display("SLT");
         command=3'b011;
@@ -114,7 +114,7 @@ module testAlu;
         #1000000
         $display("%b %b %b     | %b %b    %b    %b        | %b %b %b %b",
                  operandA, operandB, command, result, carryout, zero, overflow,
-                 32'b00000001000000000000110000000100, 1'b1, 1'b0, 1'b0);
+                 32'b00000001000000000000110000000100, 1'b0, 1'b0, 1'b0);
         $display();
         $display("NAND");
         command=3'b101;
@@ -123,7 +123,7 @@ module testAlu;
         #1000000
         $display("%b %b %b     | %b %b    %b    %b        | %b %b %b %b",
                  operandA, operandB, command, result, carryout, zero, overflow,
-                 32'b11111110111111111111001111111011, 1'b1, 1'b0, 1'b0);
+                 32'b11111110111111111111001111111011, 1'b0, 1'b0, 1'b0);
         $display();
         $display("NOR");
         command=3'b110;
@@ -132,7 +132,7 @@ module testAlu;
         #1000000
         $display("%b %b %b     | %b %b    %b    %b        | %b %b %b %b",
                  operandA, operandB, command, result, carryout, zero, overflow,
-                 32'b01111100100001111111000000110011, 1'b1, 1'b0, 1'b0);
+                 32'b01111100100001111111000000110011, 1'b0, 1'b0, 1'b0);
         $display();
         $display("OR");
         command=3'b111;
@@ -141,7 +141,7 @@ module testAlu;
         #1000000
         $display("%b %b %b     | %b %b    %b    %b        | %b %b %b %b",
                  operandA, operandB, command, result, carryout, zero, overflow,
-                 32'b10000011011110000000111111001100, 1'b1, 1'b0, 1'b0);
+                 32'b10000011011110000000111111001100, 1'b0, 1'b0, 1'b0);
     end
 
 endmodule
