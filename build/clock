@@ -1,0 +1,1 @@
+iverilog -o build/compiled verilog/clock.v tests/clock.t.v && ./build/compiled && rm ./build/compiled
