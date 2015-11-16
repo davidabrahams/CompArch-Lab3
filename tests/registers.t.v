@@ -24,7 +24,6 @@ module testRegisters;
         $dumpvars(0, testRegisters);
 
         $display("Testing Registers");
-        $display();
 
         // Test 1: zero register
         write_enable = 0;
@@ -79,7 +78,7 @@ module testRegisters;
         else begin
             $display("Register Tests Failed");
         end
-
+        $display();
         $finish;
     end
 
