@@ -8,11 +8,11 @@ module fullAdder(
 
     wire AxorB, fullAnd, AandB;
 
-    `XOR2(AxorB, a, b);
-    `AND2(AandB, a, b);
-    `AND2(fullAnd, addCarryIn, AxorB);
+    xor(AxorB, a, b);
+    and(AandB, a, b);
+    and(fullAnd, addCarryIn, AxorB);
 
-    `XOR2(out, AxorB, addCarryIn);
-    `XOR2(addCarryout, AandB, fullAnd);
+    xor(out, AxorB, addCarryIn);
+    xor(addCarryout, AandB, fullAnd);
 
 endmodule
