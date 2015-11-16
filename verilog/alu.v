@@ -11,9 +11,9 @@ module ALU (
     wire[31:0] signedB;
 
     wire initialSltKin, initialSltAnsIn, bPositive;
-    `NOT1(bPositive, operandB[31]);
-    `XNOR2(initialSltKin, operandA[31], operandB[31]);
-    `AND2(initialSltAnsIn, operandA[31], bPositive);
+    not(bPositive, operandB[31]);
+    xnor(initialSltKin, operandA[31], operandB[31]);
+    and(initialSltAnsIn, operandA[31], bPositive);
 
     wire[30:0] addCarryouts; // 31 bit is ALU carryout
     wire[31:0] sltKouts;
@@ -24,23 +24,23 @@ module ALU (
     wire[2:0] flipCommand;
 
     // only flip operandB if command is 3'b001 (subtraction)
-    `NOT1(flipCommand[2], command[2]);
-    `NOT1(flipCommand[1], command[1]);
-    `BUF1(flipCommand[0], command[0]);
-    `AND3(shouldFlip,
+    not(flipCommand[2], command[2]);
+    not(flipCommand[1], command[1]);
+    buf(flipCommand[0], command[0]);
+    and(shouldFlip,
             flipCommand[2],
             flipCommand[1],
             flipCommand[0]);
 
     // only set flags if we're adding/subtracting (command=00x)
     wire setFlags;
-    `NOR2(setFlags, command[2], command[1]);
+    nor(setFlags, command[2], command[1]);
 
     // flip the bits
     genvar i;
     generate
         for (i = 0; i < 32; i = i + 1) begin:FLIP
-            `XOR2(signedB[i], shouldFlip, operandB[i]);
+            xor(signedB[i], shouldFlip, operandB[i]);
         end
     endgenerate
 
@@ -60,7 +60,7 @@ module ALU (
                 1'b1
             );
 
-    `AND2(carryout, isCarryout, setFlags);
+    and(carryout, isCarryout, setFlags);
 
     generate
         for (i = 1; i < 31; i = i + 1) begin:SLICE
@@ -96,35 +96,35 @@ module ALU (
     wire doingSLT, notDoingSLT, sltCaseAns, notSltCaseAns;
     wire[2:0] isSLTCommand;
 
-    `NOT1(isSLTCommand[2], command[2]);
-    `BUF1(isSLTCommand[1], command[1]);
-    `BUF1(isSLTCommand[0], command[0]);
+    not(isSLTCommand[2], command[2]);
+    buf(isSLTCommand[1], command[1]);
+    buf(isSLTCommand[0], command[0]);
 
-    `AND3(doingSLT, isSLTCommand[0], isSLTCommand[1], isSLTCommand[2]);
-    `NOT1(notDoingSLT, doingSLT);
+    and(doingSLT, isSLTCommand[0], isSLTCommand[1], isSLTCommand[2]);
+    not(notDoingSLT, doingSLT);
 
-    `AND2(sltCaseAns, doingSLT, sltAnsOuts[0]);
-    `AND2(notSltCaseAns, notDoingSLT, lsbResult);
+    and(sltCaseAns, doingSLT, sltAnsOuts[0]);
+    and(notSltCaseAns, notDoingSLT, lsbResult);
 
-    `OR2(result[0], sltCaseAns, notSltCaseAns);
+    or(result[0], sltCaseAns, notSltCaseAns);
 
     // Addition flags if not set are 0. We're unsure if setting them to 0 or to
     // 1'bx is better practice.
 
     // overflow circuit from lab0
     wire AxnB, BxS;
-    `XNOR2(AxnB, operandA[31], signedB[31]); //Overflow: A == B and S !== B
-    `XOR2(BxS, signedB[31], result[31]);
-    `AND3(overflow, AxnB, BxS, setFlags);
+    xnor(AxnB, operandA[31], signedB[31]); //Overflow: A == B and S !== B
+    xor(BxS, signedB[31], result[31]);
+    and(overflow, AxnB, BxS, setFlags);
 
     wire isZero;
-    `NOR32(isZero, result[0], result[1], result[2], result[3], result[4],
+    nor(isZero, result[0], result[1], result[2], result[3], result[4],
          result[5], result[6], result[7], result[8], result[9], result[10],
          result[11], result[12], result[13], result[14], result[15], result[16],
          result[17], result[18], result[19], result[20], result[21], result[22],
          result[23], result[24], result[25], result[26], result[27], result[28],
          result[29], result[30], result[31]);
 
-    `AND2(zero, isZero, setFlags);
+    and(zero, isZero, setFlags);
 
 endmodule

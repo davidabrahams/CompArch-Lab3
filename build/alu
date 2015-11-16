@@ -1,1 +1,1 @@
-iverilog -o build/compiled verilog/gates.v verilog/multiplexer.v verilog/fullAdder.v verilog/sltSlice.v verilog/bitSlice.v verilog/alu.v tests/alu.t.v && ./build/compiled && rm ./build/compiled
+iverilog -o build/compiled verilog/multiplexer.v verilog/fullAdder.v verilog/sltSlice.v verilog/bitSlice.v verilog/alu.v tests/alu.t.v && ./build/compiled && rm ./build/compiled
