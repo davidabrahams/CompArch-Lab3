@@ -23,6 +23,6 @@ module datamemory
     end
 
     initial $readmemh("load/add-data.txt", memory);
-    assign dataOut = memory[address];
+    assign dataOut = memory[address / 4];
 
 endmodule

@@ -22,8 +22,8 @@ module cpu;
     mux4 pcMux(.out(pcIn), 
                .address(PcNext), 
                .input0(pcAddOut), 
-               .input1(regDataA), 
-               .input2(pcJump));
+               .input1(pcJump), 
+               .input2(regDataA));
     PC pc(.clk(clkOut), .in(pcIn), .out(pcOut));
 
     // Program Counter Adder
@@ -31,7 +31,7 @@ module cpu;
     mux2 pcAddMux(.out(pcAddMuxOut), 
                   .address(branch), 
                   .input0(4), 
-                  .input1(seImm));
+                  .input1(4 * seImm + 4));
 
     // Instruction Memory
     wire [31:0] instructionOut, instructionAddr;
@@ -110,8 +110,8 @@ module cpu;
 
     mux2 aluBMux(.out(aluOpB),
                  .address(AluSrc),
-                 .input0(regDataB),
-                 .input1(seImm));
+                 .input0(seImm),
+                 .input1(regDataB));
 
     // Branch Control
     wire branch;
@@ -147,6 +147,46 @@ module cpu;
         $dumpvars(0, cpu);
 
         #10;
+        $display("PC: %b", pcOut);
+        #20;
+        $display("PC: %b", pcOut);
+        #20;
+        $display("PC: %b", pcOut);
+        #20;
+        $display("PC: %b", pcOut);
+        #20;
+        $display("PC: %b", pcOut);
+        #20;
+        $display("PC: %b", pcOut);
+        #20;
+        $display("PC: %b", pcOut);
+        #20;
+        $display("PC: %b", pcOut);
+        #20;
+        $display("PC: %b", pcOut);
+        #20;
+        $display("PC: %b", pcOut);
+        #20;
+        $display("PC: %b", pcOut);
+        #20;
+        $display("PC: %b", pcOut);
+        #20;
+        $display("PC: %b", pcOut);
+        #20;
+        $display("PC: %b", pcOut);
+        #20;
+        $display("PC: %b", pcOut);
+        #20;
+        $display("PC: %b", pcOut);
+        #20;
+        $display("PC: %b", pcOut);
+        #20;
+        $display("PC: %b", pcOut);
+        #20;
+        $display("PC: %b", pcOut);
+        #20;
+        $display("PC: %b", pcOut);
+        #20;
         $display("PC: %b", pcOut);
         #20;
         $display("PC: %b", pcOut);

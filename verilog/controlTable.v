@@ -37,7 +37,6 @@ parameter jr = 6'b001000;
 
 always @ (posedge clk or op or funct) begin
 
-  $display("********* always **********");
   case (op)
 
     alu: begin
@@ -89,6 +88,21 @@ always @ (posedge clk or op or funct) begin
         jr: begin
 
            pc_next = 2'b10;
+           reg_dst = 2'bx;
+           alu_src = 1'bx;
+           alu_ctrl = 2'bx;
+           reg_we = 1'b0;
+           reg_in = 2'bx;
+           mem_we = 1'b0;
+           beq = 1'b0;
+           bne = 1'b0;
+
+        end
+
+        default: begin
+
+          $display("********* default alu **********");
+           pc_next = 2'b0;
            reg_dst = 2'bx;
            alu_src = 1'bx;
            alu_ctrl = 2'bx;
@@ -219,6 +233,7 @@ always @ (posedge clk or op or funct) begin
 
   endcase
     $display("pc_next: %b", pc_next);
+    $display("op: %b", op);
 
 end
 
