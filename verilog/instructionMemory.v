@@ -1,17 +1,16 @@
 //------------------------------------------------------------------------
-// Data Memory
+// Instruction Memory
 //   Positive edge triggered
 //   dataOut always has the value mem[address]
-//   If writeEnable is true, writes dataIn to mem[address]
 //------------------------------------------------------------------------
 
-module datamemory
+module instructionMemory
 (
-    input 		      clk,
+    input         clk,
     output [31:0] dataOut,
-    input [31:0]      address,
-    input             writeEnable,
-    input [31:0]      dataIn
+    input [31:0]  address,
+    input         writeEnable,
+    input [31:0]  dataIn
 );
 
 
@@ -22,7 +21,7 @@ module datamemory
             memory[address] <= dataIn;
     end
 
-    initial $readmemh("load/add-data.txt", memory);
-    assign dataOut = memory[address];
+    assign dataOut = memory[address / 4];
+    initial $readmemh("load/add-instructions.txt", memory);
 
 endmodule

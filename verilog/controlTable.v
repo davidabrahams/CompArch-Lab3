@@ -5,6 +5,7 @@
 
 module controlTable
 (
+    input           clk,
     input [5:0]     op,
     input [5:0]     funct,
     output reg [1:0] pc_next,
@@ -32,8 +33,11 @@ parameter sub = 6'b100010;
 parameter slt = 6'b101010;
 parameter jr = 6'b001000;
 
-always @ (op or funct) begin
 
+
+always @ (posedge clk or op or funct) begin
+
+  $display("********* always **********");
   case (op)
 
     alu: begin
@@ -42,57 +46,57 @@ always @ (op or funct) begin
 
         add: begin
 
-          assign pc_next = 2'b0;
-          assign reg_dst = 2'b1;
-          assign alu_src = 1'b1;
-          assign alu_ctrl = 2'b0;
-          assign reg_we = 1'b1;
-          assign reg_in = 2'b0;
-          assign mem_we = 1'b0;
-          assign beq = 1'b0;
-          assign bne = 1'b0;
+           pc_next = 2'b0;
+           reg_dst = 2'b1;
+           alu_src = 1'b1;
+           alu_ctrl = 2'b0;
+           reg_we = 1'b1;
+           reg_in = 2'b0;
+           mem_we = 1'b0;
+           beq = 1'b0;
+           bne = 1'b0;
 
         end
 
         sub: begin
 
-          assign pc_next = 2'b0;
-          assign reg_dst = 2'b1;
-          assign alu_src = 1'b1;
-          assign alu_ctrl = 2'b1;
-          assign reg_we = 1'b1;
-          assign reg_in = 2'b0;
-          assign mem_we = 1'b0;
-          assign beq = 1'b0;
-          assign bne = 1'b0;
+           pc_next = 2'b0;
+           reg_dst = 2'b1;
+           alu_src = 1'b1;
+           alu_ctrl = 2'b1;
+           reg_we = 1'b1;
+           reg_in = 2'b0;
+           mem_we = 1'b0;
+           beq = 1'b0;
+           bne = 1'b0;
 
         end
 
         slt: begin
 
-          assign pc_next = 2'b0;
-          assign reg_dst = 2'b1;
-          assign alu_src = 1'b1;
-          assign alu_ctrl = 2'b11;
-          assign reg_we = 1'b1;
-          assign reg_in = 2'b0;
-          assign mem_we = 1'b0;
-          assign beq = 1'b0;
-          assign bne = 1'b0;
+           pc_next = 2'b0;
+           reg_dst = 2'b1;
+           alu_src = 1'b1;
+           alu_ctrl = 2'b11;
+           reg_we = 1'b1;
+           reg_in = 2'b0;
+           mem_we = 1'b0;
+           beq = 1'b0;
+           bne = 1'b0;
 
         end
 
         jr: begin
 
-          assign pc_next = 2'b10;
-          assign reg_dst = 2'bx;
-          assign alu_src = 1'bx;
-          assign alu_ctrl = 2'bx;
-          assign reg_we = 1'b0;
-          assign reg_in = 2'bx;
-          assign mem_we = 1'b0;
-          assign beq = 1'b0;
-          assign bne = 1'b0;
+           pc_next = 2'b10;
+           reg_dst = 2'bx;
+           alu_src = 1'bx;
+           alu_ctrl = 2'bx;
+           reg_we = 1'b0;
+           reg_in = 2'bx;
+           mem_we = 1'b0;
+           beq = 1'b0;
+           bne = 1'b0;
 
         end
 
@@ -102,103 +106,119 @@ always @ (op or funct) begin
 
     lw: begin
 
-      assign pc_next = 2'b0;
-      assign reg_dst = 2'b0;
-      assign alu_src = 1'b0;
-      assign alu_ctrl = 2'b0;
-      assign reg_we = 1'b1;
-      assign reg_in = 2'b1;
-      assign mem_we = 1'b0;
-      assign beq = 1'b0;
-      assign bne = 1'b0;
+       pc_next = 2'b0;
+       reg_dst = 2'b0;
+       alu_src = 1'b0;
+       alu_ctrl = 2'b0;
+       reg_we = 1'b1;
+       reg_in = 2'b1;
+       mem_we = 1'b0;
+       beq = 1'b0;
+       bne = 1'b0;
 
     end
 
     sw: begin
 
-      assign pc_next = 2'b0;
-      assign reg_dst = 2'bx;
-      assign alu_src = 1'b0;
-      assign alu_ctrl = 2'b0;
-      assign reg_we = 1'b0;
-      assign reg_in = 2'bx;
-      assign mem_we = 1'b1;
-      assign beq = 1'b0;
-      assign bne = 1'b0;
+       pc_next = 2'b0;
+       reg_dst = 2'bx;
+       alu_src = 1'b0;
+       alu_ctrl = 2'b0;
+       reg_we = 1'b0;
+       reg_in = 2'bx;
+       mem_we = 1'b1;
+       beq = 1'b0;
+       bne = 1'b0;
 
     end
 
     j: begin
 
-      assign pc_next = 2'b1;
-      assign reg_dst = 2'bx;
-      assign alu_src = 1'bx;
-      assign alu_ctrl = 2'bx;
-      assign reg_we = 1'b0;
-      assign reg_in = 2'bx;
-      assign mem_we = 1'b0;
-      assign beq = 1'b0;
-      assign bne = 1'b0;
+       pc_next = 2'b1;
+       reg_dst = 2'bx;
+       alu_src = 1'bx;
+       alu_ctrl = 2'bx;
+       reg_we = 1'b0;
+       reg_in = 2'bx;
+       mem_we = 1'b0;
+       beq = 1'b0;
+       bne = 1'b0;
 
     end
 
     jal: begin
 
-      assign pc_next = 2'b1;
-      assign reg_dst = 2'b10;
-      assign alu_src = 1'bx;
-      assign alu_ctrl = 2'bx;
-      assign reg_we = 1'b1;
-      assign reg_in = 2'b10;
-      assign mem_we = 1'b0;
-      assign beq = 1'b0;
-      assign bne = 1'b0;
+       pc_next = 2'b1;
+       reg_dst = 2'b10;
+       alu_src = 1'bx;
+       alu_ctrl = 2'bx;
+       reg_we = 1'b1;
+       reg_in = 2'b10;
+       mem_we = 1'b0;
+       beq = 1'b0;
+       bne = 1'b0;
 
     end
 
     beq_code: begin
 
-      assign pc_next = 2'b0;
-      assign reg_dst = 2'bx;
-      assign alu_src = 1'b1;
-      assign alu_ctrl = 2'b1;
-      assign reg_we = 1'b0;
-      assign reg_in = 2'bx;
-      assign mem_we = 1'b0;
-      assign beq = 1'b1;
-      assign bne = 1'b0;
+       pc_next = 2'b0;
+       reg_dst = 2'bx;
+       alu_src = 1'b1;
+       alu_ctrl = 2'b1;
+       reg_we = 1'b0;
+       reg_in = 2'bx;
+       mem_we = 1'b0;
+       beq = 1'b1;
+       bne = 1'b0;
 
     end
 
     bne_code: begin
 
-      assign pc_next = 2'b0;
-      assign reg_dst = 2'bx;
-      assign alu_src = 1'b1;
-      assign alu_ctrl = 2'b1;
-      assign reg_we = 1'b0;
-      assign reg_in = 2'bx;
-      assign mem_we = 1'b0;
-      assign beq = 1'b0;
-      assign bne = 1'b1;
+       pc_next = 2'b0;
+       reg_dst = 2'bx;
+       alu_src = 1'b1;
+       alu_ctrl = 2'b1;
+       reg_we = 1'b0;
+       reg_in = 2'bx;
+       mem_we = 1'b0;
+       beq = 1'b0;
+       bne = 1'b1;
 
     end
 
     xori: begin
 
-      assign pc_next = 2'b0;
-      assign reg_dst = 2'b0;
-      assign alu_src = 1'b0;
-      assign alu_ctrl = 2'b10;
-      assign reg_we = 1'b1;
-      assign reg_in = 2'b0;
-      assign mem_we = 1'b0;
-      assign beq = 1'b0;
-      assign bne = 1'b0;
+       pc_next = 2'b0;
+       reg_dst = 2'b0;
+       alu_src = 1'b0;
+       alu_ctrl = 2'b10;
+       reg_we = 1'b1;
+       reg_in = 2'b0;
+       mem_we = 1'b0;
+       beq = 1'b0;
+       bne = 1'b0;
+
+    end
+
+    default: begin
+
+      $display("********* default **********");
+       pc_next = 2'b0;
+       reg_dst = 2'bx;
+       alu_src = 1'bx;
+       alu_ctrl = 2'bx;
+       reg_we = 1'b0;
+       reg_in = 2'bx;
+       mem_we = 1'b0;
+       beq = 1'b0;
+       bne = 1'b0;
 
     end
 
   endcase
+    $display("pc_next: %b", pc_next);
 
 end
 

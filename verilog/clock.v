@@ -12,7 +12,7 @@ module clock
 );
 
   initial begin
-    clk = 0;
+    clk = 0; 
   end
 
   always #cyclelength clk = !clk;
