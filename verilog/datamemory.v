@@ -6,26 +6,23 @@
 //------------------------------------------------------------------------
 
 module datamemory
-#(
-    parameter addresswidth  = 7,
-    parameter depth         = 2**addresswidth,
-    parameter width         = 8
-)
 (
-    input 		                clk,
-    output reg [width-1:0]      dataOut,
-    input [addresswidth-1:0]    address,
-    input                       writeEnable,
-    input [width-1:0]           dataIn
+    input 		      clk,
+    output [31:0] dataOut,
+    input [31:0]      address,
+    input             writeEnable,
+    input [31:0]      dataIn
 );
 
 
-    reg [width-1:0] memory [depth-1:0];
+    reg [31:0] memory [1023:0];
 
     always @(posedge clk) begin
         if(writeEnable)
             memory[address] <= dataIn;
-        dataOut <= memory[address];
     end
+
+    initial $readmemh("load/add-data.txt", memory);
+    assign dataOut = memory[address];
 
 endmodule

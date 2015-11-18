@@ -5,8 +5,8 @@ module Registers (
     input write_enable,
     input [4:0] address_a,
     input [4:0] address_b,
-    output reg [31:0] data_a,
-    output reg [31:0] data_b
+    output [31:0] data_a,
+    output [31:0] data_b
 );
 
     reg [4:0] memory [31:0];
@@ -18,8 +18,9 @@ module Registers (
 
         memory[5'b0] <= 31'b0;
 
-        data_a <= memory[address_a];
-        data_b <= memory[address_b];
     end
+
+    assign data_a = memory[address_a];
+    assign data_b = memory[address_b];
 
 endmodule
