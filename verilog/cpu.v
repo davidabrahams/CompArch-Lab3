@@ -2,10 +2,10 @@ module cpu;
 
     // System Clock
     wire clkOut;
-    clk(.clkOut(clkOut));
+    clock clk(clkOut);
 
     // Control Signals
-    wire [1:0] pcNext;
+    wire [1:0] pcNext = 0;
     wire [1:0] regDst;
     wire aluSrc;
     wire [1:0] aluCtrl;
@@ -16,9 +16,13 @@ module cpu;
     wire bne;
     // fsm
 
+    // FIX
+    wire [31:0] dataA, pcJump;
+
     // Program Counter
     wire [31:0] pcOut; // this might need to be a register
     wire [31:0] pcIn;
+    assign pcAddOut = pcOut + pcAddMuxOut;
     mux4 pcMux(.out(pcIn), 
                .address(pcNext), 
                .input0(pcAddOut), 
@@ -26,36 +30,68 @@ module cpu;
                .input2(pcJump));
     PC pc(.clk(clkOut), .in(pcIn), .out(pcOut));
 
+    // FIX
+    reg brch = 0;
+    wire [15:0] seImm;
+
     // Program Counter Adder
-    reg pcAddOut, pcAddMuxOut;
+    wire [31:0] pcAddOut, pcAddMuxOut;
     mux2 pcAddMux(.out(pcAddMuxOut), 
                   .address(brch), 
                   .input0(4), 
                   .input1(seImm));
-    pcAddOut = pcOut + pcAddMuxOut;
 
     // Instruction Memory
     wire [31:0] instructionOut, instructionAddr;
-    datamemory #(.addresswidth(32), 
-                 .depth(2048), 
-                 .width(32)) instructionMemory(.clk(clkOut)
-                                               .dataOut(instructionOut),
-                                               .address(instructionAddr),
-                                               .writeEnable(0));
+    assign instructionAddr = pcOut;
+    instructionMemory instrMem(.clk(clkOut),
+                               .dataOut(instructionOut),
+                               .address(instructionAddr),
+                               .writeEnable(0));
+
+    // Instruction 
+
+    initial begin
+        $dumpfile("cpu.vcd"); //dump info to create wave propagation later
+        $dumpvars(0, cpu);
+
+        #20;
+        $display("PC: %b", pcOut);
+        #20;
+        $display("PC: %b", pcOut);
+        #20;
+        $display("PC: %b", pcOut);
+        #20;
+        $display("PC: %b", pcOut);
+        #20;
+        $display("PC: %b", pcOut);
+        #20;
+        $display("PC: %b", pcOut);
+        $finish;
+    end
+
+    // Instruction Memory
+    // wire [31:0] instructionOut, instructionAddr;
+    // datamemory #(.addresswidth(32), 
+    //              .depth(2048), 
+    //              .width(32)) instructionMemory(.clk(clkOut)
+    //                                            .dataOut(instructionOut),
+    //                                            .address(instructionAddr),
+    //                                            .writeEnable(0));
 
     // Instruction Decoder
-    wire [5:0]  decoderOp;
-    wire [4:0]  decoderRs;
-    wire [4:0]  decoderRt;
-    wire [4:0]  decoderRd;
-    wire [15:0] decorderImm16;
-    wire [25:0] decoderAddr26;
-    instructionDecoder decoder(.instruction_in(instructionOut),
-                               .op(decoderOp),
-                               .rs(decoderRs),
-                               .rt(decoderRt),
-                               .rd(decoderRd),
-                               .imm_16(decoderImm16),
-                               .address_26(decoderAddr26));
+    // wire [5:0]  decoderOp;
+    // wire [4:0]  decoderRs;
+    // wire [4:0]  decoderRt;
+    // wire [4:0]  decoderRd;
+    // wire [15:0] decorderImm16;
+    // wire [25:0] decoderAddr26;
+    // instructionDecoder decoder(.instruction_in(instructionOut),
+    //                            .op(decoderOp),
+    //                            .rs(decoderRs),
+    //                            .rt(decoderRt),
+    //                            .rd(decoderRd),
+    //                            .imm_16(decoderImm16),
+    //                            .address_26(decoderAddr26));
 
 endmodule
