@@ -22,6 +22,6 @@ module instructionMemory
     end
 
     assign dataOut = memory[address / 4];
-    initial $readmemh("load/add-instructions.txt", memory);
+    initial $readmemb("load/bne-instructions.txt", memory);
 
 endmodule
