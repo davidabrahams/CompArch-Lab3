@@ -11,10 +11,8 @@ module testClock;
   initial begin
     $dumpfile("clock.vcd"); //dump info to create wave propagation later
     $dumpvars(0, testClock);
-    $display();
 
     $display("Testing clock");
-    $display();
 
     dutpassed = 1;
 
@@ -44,10 +42,10 @@ module testClock;
     end
 
     if (dutpassed == 1) begin
-      $display("All Tests Passed");
+      $display("Clk Tests Passed");
     end
     else begin
-      $display("Tests Failed");
+      $display("Clk Tests Failed");
     end
     $display();
     $finish;

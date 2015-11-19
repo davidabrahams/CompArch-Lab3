@@ -66,10 +66,10 @@ module testMux;
     end
 
     if (dutpassed == 1) begin
-        $display("All Tests Passed");
+        $display("Multiplexer Tests Passed");
     end
     else begin
-        $display("Tests Failed");
+        $display("Multiplexer Tests Failed");
     end
     $display();
     $finish;
