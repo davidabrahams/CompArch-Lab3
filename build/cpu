@@ -1,0 +1,1 @@
+ iverilog verilog/cpu.v verilog/clock.v verilog/multiplexer.v verilog/pc.v verilog/datamemory.v verilog/instructionMemory.v verilog/instructionDecoder.v verilog/registers.v verilog/alu.v verilog/bitSlice.v verilog/sltSlice.v verilog/fullAdder.v verilog/controlTable.v -o compiled && ./compiled && rm compiled
