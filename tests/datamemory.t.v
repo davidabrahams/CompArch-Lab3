@@ -81,10 +81,10 @@ module testDataMemory;
         end
 
         if (dutpassed == 1) begin
-            $display("All Tests Passed");
+            $display("DataMemory Tests Passed");
         end
         else begin
-            $display("Tests Failed");
+            $display("DataMemory Tests Failed");
         end
         $display();
         $finish;

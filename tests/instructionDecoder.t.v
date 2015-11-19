@@ -61,10 +61,10 @@ module testInstructionDecoder;
         end
 
         if (dutpassed == 1) begin
-            $display("All Tests Passed");
+            $display("InstructionDecoder Tests Passed");
         end
         else begin
-            $display("Tests Failed");
+            $display("InstructionDecoder Tests Failed");
         end
         $display();
         $finish;

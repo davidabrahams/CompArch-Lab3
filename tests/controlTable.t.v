@@ -32,7 +32,12 @@ module testControlTable;
     parameter slt = 6'b101010;
     parameter jr = 6'b001000;
 
-    controlTable DUT(op, funct, pc_next, reg_dst, alu_src, alu_ctrl, reg_we, reg_in, mem_we, beq, bne);
+    // System Clock
+    wire clkOut;
+    clock clk(clkOut);
+
+    controlTable DUT(clkOut, op, funct, pc_next, reg_dst, alu_src, alu_ctrl,
+                     reg_we, reg_in, mem_we, beq, bne);
 
     initial begin
         $dumpfile("controlTable.vcd"); //dump info to create wave propagation later
@@ -45,88 +50,88 @@ module testControlTable;
 
         op = alu;
         funct = add;
-        #10
+        #30
         if (pc_next !== 2'b0 || reg_dst !== 2'b1 || alu_src !== 1'b1 || alu_ctrl !== 2'b0 || reg_we !== 1'b1 || reg_in !== 2'b0 || mem_we !== 1'b0 || beq !== 1'b0 || bne !== 1'b0) begin
             dutpassed = 0;
             $display("ADD Test failed");
         end
 
         funct = sub;
-        #10
+        #30
         if (pc_next !== 2'b0 || reg_dst !== 2'b1 || alu_src !== 1'b1 || alu_ctrl !== 2'b1 || reg_we !== 1'b1 || reg_in !== 2'b0 || mem_we !== 1'b0 || beq !== 1'b0 || bne !== 1'b0) begin
             dutpassed = 0;
             $display("SUB Test failed");
         end
 
         funct = slt;
-        #10
+        #30
         if (pc_next !== 2'b0 || reg_dst !== 2'b1 || alu_src !== 1'b1 || alu_ctrl !== 2'b11 || reg_we !== 1'b1 || reg_in !== 2'b0 || mem_we !== 1'b0 || beq !== 1'b0 || bne !== 1'b0) begin
             dutpassed = 0;
             $display("SLT Test failed");
         end
 
         funct = jr;
-        #10
+        #30
         if (pc_next !== 2'b10 || reg_dst !== 2'bx || alu_src !== 1'bx || alu_ctrl !== 2'bx || reg_we !== 1'b0 || reg_in !== 2'bx || mem_we !== 1'b0 || beq !== 1'b0 || bne !== 1'b0) begin
             dutpassed = 0;
             $display("JR Test failed");
         end
 
         op = lw;
-        #10
+        #30
         if (pc_next !== 2'b0 || reg_dst !== 2'b0 || alu_src !== 1'b0 || alu_ctrl !== 2'b0 || reg_we !== 1'b1 || reg_in !== 2'b1 || mem_we !== 1'b0 || beq !== 1'b0 || bne !== 1'b0) begin
             dutpassed = 0;
             $display("LW Test failed");
         end
 
         op = sw;
-        #10
+        #30
         if (pc_next !== 2'b0 || reg_dst !== 2'bx || alu_src !== 1'b0 || alu_ctrl !== 2'b0 || reg_we !== 1'b0 || reg_in !== 2'bx || mem_we !== 1'b1 || beq !== 1'b0 || bne !== 1'b0) begin
             dutpassed = 0;
             $display("SW Test failed");
         end
 
         op = j;
-        #10
+        #30
         if (pc_next !== 2'b1 || reg_dst !== 2'bx || alu_src !== 1'bx || alu_ctrl !== 2'bx || reg_we !== 1'b0 || reg_in !== 2'bx || mem_we !== 1'b0 || beq !== 1'b0 || bne !== 1'b0) begin
             dutpassed = 0;
             $display("J Test failed");
         end
 
         op = jal;
-        #10
+        #30
         if (pc_next !== 2'b1 || reg_dst !== 2'b10 || alu_src !== 1'bx || alu_ctrl !== 2'bx || reg_we !== 1'b1 || reg_in !== 2'b10 || mem_we !== 1'b0 || beq !== 1'b0 || bne !== 1'b0) begin
             dutpassed = 0;
             $display("JAL Test failed");
         end
 
         op = beq_code;
-        #10
+        #30
         if (pc_next !== 2'b0 || reg_dst !== 2'bx || alu_src !== 1'b1 || alu_ctrl !== 2'b1 || reg_we !== 1'b0 || reg_in !== 2'bx || mem_we !== 1'b0 || beq !== 1'b1 || bne !== 1'b0) begin
             dutpassed = 0;
             $display("BEQ Test failed");
         end
 
         op = bne_code;
-        #10
+        #30
         if (pc_next !== 2'b0 || reg_dst !== 2'bx || alu_src !== 1'b1 || alu_ctrl !== 2'b1 || reg_we !== 1'b0 || reg_in !== 2'bx || mem_we !== 1'b0 || beq !== 1'b0 || bne !== 1'b1) begin
             dutpassed = 0;
             $display("BNE Test failed");
         end
 
         op = xori;
-        #10
+        #30
         if (pc_next !== 2'b0 || reg_dst !== 2'b0 || alu_src !== 1'b0 || alu_ctrl !== 2'b10 || reg_we !== 1'b1 || reg_in !== 2'b0 || mem_we !== 1'b0 || beq !== 1'b0 || bne !== 1'b0) begin
             dutpassed = 0;
             $display("XORI Test failed");
         end
 
         if (dutpassed == 1) begin
-            $display("All Tests Passed");
+            $display("ControlTable Tests Passed");
         end
 
         else begin
-            $display("Tests Failed");
+            $display("ControlTable Tests Failed");
         end
         $display();
         $finish;

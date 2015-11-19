@@ -1,1 +1,1 @@
-iverilog -o build/compiled verilog/controlTable.v tests/controlTable.t.v && ./build/compiled && rm ./build/compiled
+iverilog -o build/compiled verilog/clock.v verilog/controlTable.v tests/controlTable.t.v && ./build/compiled && rm ./build/compiled
