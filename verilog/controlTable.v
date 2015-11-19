@@ -218,7 +218,7 @@ always @ (posedge clk or op or funct) begin
 
     default: begin
 
-      $display("********* default **********");
+      /*$display("********* default **********");*/
        pc_next = 2'b0;
        reg_dst = 2'bx;
        alu_src = 1'bx;
@@ -232,8 +232,8 @@ always @ (posedge clk or op or funct) begin
     end
 
   endcase
-    $display("pc_next: %b", pc_next);
-    $display("op: %b", op);
+    /*$display("pc_next: %b", pc_next);
+    $display("op: %b", op);*/
 
 end
 

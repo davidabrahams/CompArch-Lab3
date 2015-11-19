@@ -19,18 +19,18 @@ module cpu;
     wire [31:0] pcOut; // this might need to be a register
     wire [31:0] pcIn;
     assign pcAddOut = pcOut + pcAddMuxOut;
-    mux4 pcMux(.out(pcIn), 
-               .address(PcNext), 
-               .input0(pcAddOut), 
-               .input1(pcJump), 
+    mux4 pcMux(.out(pcIn),
+               .address(PcNext),
+               .input0(pcAddOut),
+               .input1(pcJump),
                .input2(regDataA));
     PC pc(.clk(clkOut), .in(pcIn), .out(pcOut));
 
     // Program Counter Adder
     wire [31:0] pcAddOut, pcAddMuxOut;
-    mux2 pcAddMux(.out(pcAddMuxOut), 
-                  .address(branch), 
-                  .input0(4), 
+    mux2 pcAddMux(.out(pcAddMuxOut),
+                  .address(branch),
+                  .input0(4),
                   .input1(4 * seImm + 4));
 
     // Instruction Memory
@@ -218,31 +218,24 @@ module cpu;
         $display("PC: %b", pcOut);
         #20;
         $display("PC: %b", pcOut);
+        // check our result registers!
+        #20
+        $display("regA: %d, at address: %h", regDataA, regAddrA);
+        #20
+        $display("regA: %d, at address: %h", regDataA, regAddrA);
+        #20
+        $display("regA: %d, at address: %h", regDataA, regAddrA);
+        #20
+        $display("regA: %d, at address: %h", regDataA, regAddrA);
+        #20
+        $display("regA: %d, at address: %h", regDataA, regAddrA);
+        #20
+        $display("regA: %d, at address: %h", regDataA, regAddrA);
+        #20
+        $display("regA: %d, at address: %h", regDataA, regAddrA);
+        #20
+        $display("regA: %d, at address: %h", regDataA, regAddrA);
         $finish;
     end
-
-    // Instruction Memory
-    // wire [31:0] instructionOut, instructionAddr;
-    // datamemory #(.addresswidth(32), 
-    //              .depth(2048), 
-    //              .width(32)) instructionMemory(.clk(clkOut)
-    //                                            .dataOut(instructionOut),
-    //                                            .address(instructionAddr),
-    //                                            .writeEnable(0));
-
-    // Instruction Decoder
-    // wire [5:0]  decoderOp;
-    // wire [4:0]  decoderRs;
-    // wire [4:0]  decoderRt;
-    // wire [4:0]  decoderRd;
-    // wire [15:0] decorderImm16;
-    // wire [25:0] decoderAddr26;
-    // instructionDecoder decoder(.instruction_in(instructionOut),
-    //                            .op(decoderOp),
-    //                            .rs(decoderRs),
-    //                            .rt(decoderRt),
-    //                            .rd(decoderRd),
-    //                            .imm_16(decoderImm16),
-    //                            .address_26(decoderAddr26));
 
 endmodule
