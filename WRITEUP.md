@@ -210,3 +210,123 @@ The ALU was tested in the same methodology as in Lab 1, detailed [here](https://
 We then tested each CPU for each command separately with assembly code. The test programs are the in `assembly` folder, and were loaded by dumping the commands in binary to the `load` folder, before being loaded into the instruction memory. We checked that our execution yielded the desired results by examining the waveforms.
 
 Finally, we ran the complete assembly tests (our `division.asm` and others) and checked our results with the instructions given in the `README`s.
+
+### Area Analysis
+
+We have chosen to describe the size of our CPU by calculating the total number of fundamental gates used in the design. We define the size of the two input logic gates as follows.
+
+| Gate | Size |
+|:----:|:----:|
+| NOT  |  1   |
+| NAND |  2   |
+| NOR  |  2   |
+| XNOR |  2   |
+| AND  |  3   |
+| OR   |  3   |
+| XOR  |  3   |
+
+The `AND`, `OR`, and `XOR` gates are made using their negative couterpart gate and a `NOT` gate. Using these values we can determine the size of each component.
+
+#### Program Counter
+
+The program counter holds a 32 bit address that signifies the location of the current instruction. At each the positive edge of each clock cycle, the input is propogated through as the new output. We estimate that the program counter requires the following subcomponents.
+
+| Subcomponent | Quantity | Unit Size | Total Size |
+|:------------:|:--------:|:---------:|:----------:|
+| D Flip Flop  |    32    |     9     |    288     |
+|              |          |           |    288     |
+
+#### Adder
+
+In order to increment the program counter after each cycle, an adder is used. This adder must be able to handle unsigned 32 bit additions. The table below shows the estimated cost.
+
+| Subcomponent     | Quantity | Unit Size | Total Size |
+|:----------------:|:--------:|:---------:|:----------:|
+| 1 Bit Full Adder |    32    |    15     |    480     |
+|                  |          |           |    480     |
+
+#### Instruction Memory
+
+The instruction memory is able to store program operations. Each instruction requires 32 bits of space. Based on the input address supplied, a corresponding instruction will be output at the positive edge of each clock cycle. We estimate the size of this component as follows.
+
+| Subcomponent            | Quantity | Unit Size | Total Size |
+|:-----------------------:|:--------:|:---------:|:----------:|
+| D Flip Flop with Enable |  32,768  |    11     |   360,448  |
+| 1024 Option Mux         |  32      |  34,813   |  1,113,002 |
+|                         |          |           |  1,473,450 |
+
+#### Instruction Decoder
+
+The instruction decoder breaks up the 32 bit instruction into its individual parts. This is done simply with wires and requires no gates.
+
+
+#### Sign Extender
+
+The sign extender converts a signed 16 bit immediate into a signed 32 bit number. This is simply done by wiring the most significant bit of the 16 bit number to the top 16 bits of the 32 bit instruction. The rest of the bits are wired to the same location in the new number. This requires no gates.
+
+
+#### Concatenator
+
+The concatenator merges three values into a single 32 bit value. This is simply done by wiring the inputs into the output. This requires no gates.
+
+
+#### Registers
+
+The register file is similar to the instruction memory. The registers support writing to one of the 32 locations at a time and reading from two different address simultaneously. The estimated size is as follows.
+
+| Subcomponent            | Quantity | Unit Size | Total Size |
+|:-----------------------:|:--------:|:---------:|:----------:|
+| D Flip Flop with Enable |  1024    |    11     |   11,264   |
+| 32 Option Mux           |  64      |  605      |  38,693    |
+|                         |          |           |  49,957    |
+
+
+#### Data Memory
+
+The data memory is exactly the same as the instruction memory, except that it holds data values rather than instructions. The sizing is the same.
+
+| Subcomponent            | Quantity | Unit Size | Total Size |
+|:-----------------------:|:--------:|:---------:|:----------:|
+| D Flip Flop with Enable |  32,768  |    11     |   360,448  |
+| 1024 Option Mux         |  32      |  34,813   |  1,113,002 |
+|                         |          |           |  1,473,450 |
+
+#### ALU
+
+The ALU allows the CPU to compute mathematical operations. This component operates on 32 bit operands. The table below describes its size.
+
+| Subcomponent | Quantity | Unit Size | Total Size |
+|:------------:|:--------:|:---------:|:----------:|
+| Bit Slice    |  32      |    197    |   6,304     |
+| NOT Gate     |  5       |    1      |   5        |
+| XNOR Gate    |  2       |    2      |   4        |
+| AND Gate     |  11      |    3      |   33       |
+| OR Gate      |  1       |    3      |   3        |
+| NOR Gate     |  32      |    2      |   64       |
+|              |          |           |  6,413      |
+
+#### Additional Components
+
+The following components are used within the cpu, outside of any other subcomponent.
+
+| Subcomponent | Quantity | Unit Size | Total Size |
+|:------------:|:--------:|:---------:|:----------:|
+| AND Gate     |  11      |    3      |   33       |
+| OR Gate      |  1       |    3      |   3        |
+|              |          |           |  36        |
+
+#### Total
+
+The grand total size is calculated in the following table.
+
+| Subcomponent       | Quantity | Unit Size    | Total Size  |
+|:------------------:|:--------:|:------------:|:-----------:|
+| Adder              |  1       |    480       |   480       |
+| Program Counter    |  1       |    288       |   288       |
+| Instruction Memory |  1       |   1,473,450  |   1,473,450 |
+| Registers          |  1       |    49,957    |   49,957    |
+| Data Memory        |  1       |    1,473,450 |   1,473,450 |
+| ALU                |  1       |    6,413     |   6,413     |
+| AND Gate           |  11      |    3         |   33        |
+| OR Gate            |  1       |    3         |   3         |
+|                    |          |              |   3,004,074 |
