@@ -102,7 +102,7 @@ The following is how our CPU implements each instruction. Because our CPU is sin
 
 ## Testing
 
-### Execution
+### Verilog Testing and Execution
 To run a test for a specific module, run
 
 ```
@@ -113,6 +113,7 @@ CompArch-Lab3$ ./build/moduleToTest
 To run all module tests, run:
 
 ```
+./build/alltests
 ```
 
 Each module test tests all of that module's functionality, and gives an output like this:
@@ -125,7 +126,7 @@ PC Tests Passed
 
 if all functionality works as expected.
 
-### Testing the ALU
+#### The ALU
 
 ```
 CompArch-Lab3$ ./build/alu
@@ -133,7 +134,7 @@ CompArch-Lab3$ ./build/alu
 
 The ALU tests do three tests of addition and subtraction, testing different combinations of carryout, overflow, and negative and positive operands. Similarly we test SLT with three sets of input to ensure our SLT works for every combination of negative and positive numbers. Finally, we test all simple logic (NOR, NAND, etc).
 
-### Testing the ALU
+#### The Clock
 
 ```
 CompArch-Lab3$ ./build/clock
@@ -141,7 +142,7 @@ CompArch-Lab3$ ./build/clock
 
 The clock tests simply tests that the clock is switching on and off at the expected frequency at many different time points.
 
-### Testing the Control Table
+#### The Control Table
 
 ```
 CompArch-Lab3$ ./build/controlTable
@@ -149,7 +150,7 @@ CompArch-Lab3$ ./build/controlTable
 
 The control table sets all control signals in our top level cpu module. The tests give the control table every single `op` and `funct` code, and tests that the control signals are set appropriately.
 
-### Testing the Data Memory
+#### The Data Memory
 
 ```
 CompArch-Lab3$ ./build/datamemory
@@ -157,7 +158,7 @@ CompArch-Lab3$ ./build/datamemory
 
 The datamemory can both read data from a given address, or write data to a given address. Our tests test both read and write capabilities at different addresses, and ensure that our memory is persistant between calls.
 
-### Testing the Instruction Decoder
+#### The Instruction Decoder
 
 ```
 CompArch-Lab3$ ./build/instructionDecoder
@@ -165,7 +166,7 @@ CompArch-Lab3$ ./build/instructionDecoder
 
 The Instruction Decoder takes in takes in a 32-bit instruction and outputs the correct registers, immediate, and `funct` code. The tests give the decoder a series of instructions and checks that the outputs are what we expect.
 
-### Testing the Multiplexer
+#### The Multiplexer
 
 ```
 CompArch-Lab3$ ./build/multiplexer
@@ -173,7 +174,7 @@ CompArch-Lab3$ ./build/multiplexer
 
 We have 2, 4, and 8 input multiplexers. The tests give the multiplexers a series of inputs and then address into different values, and check the output.
 
-### Testing the Program Counter
+#### The Program Counter
 
 ```
 CompArch-Lab3$ ./build/pc
@@ -181,7 +182,7 @@ CompArch-Lab3$ ./build/pc
 
 The PC simply sets the PC to its input on positive clock edges. The tests check that the PC is being set properly and at the right time.
 
-### Testing the Registers
+#### The Registers
 
 ```
 CompArch-Lab3$ ./build/registers
@@ -195,7 +196,7 @@ The tests test both the input and output functionality of the registers. We writ
 
 In order to test an assembly program, compile it with `MARS`, and dump the raw instructions to a text file. Modify `instructionRegister.v` to load the given textfile and run `$ ./build/cpu` to run the program.
 
-### Strategy
+### Testing Strategy
 We tested each module in the CPU exhaustively with verilog tests.
 
 Each of the tests for the control table and instruction decoder were simple: give them every possible input and check for every possible output.
